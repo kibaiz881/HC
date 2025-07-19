@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Users;
 
-use App\Repository\UtilisateursRepository;
+use App\Repository\UsersRepo\UtilisateursRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Vich\UploaderBundle\Entity\File as Files;
+use Symfony\Component\HttpFoundation\File\File;
 
 
 #[Vich\Uploadable]
@@ -15,7 +15,7 @@ use Vich\UploaderBundle\Entity\File as Files;
 class Utilisateurs
 {
     #[ORM\Id]
-    #[ORM\Column(type:"uuid", unique: true)]
+    #[ORM\Column(type: "uuid", unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'uuid')]
     #[ORM\Column]
@@ -63,8 +63,11 @@ class Utilisateurs
     #[ORM\Column(length: 50)]
     private ?string $Types = null;
 
-    #[Vich\UploadableField(mapping: 'utilisateurs_profile', fileNameProperty: 'ProfileUtilisateur')]
-    private ?Files $ProfileUtilisateur = null;
+    #[Vich\UploadableField(mapping: 'utilisateurs_profile', fileNameProperty: 'ImageNameUtilsateur')]
+    private ?File $ProfileUtilisateur = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ImageNameUtilsateur = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Roles = null;
@@ -242,12 +245,12 @@ class Utilisateurs
         return $this;
     }
 
-    public function getProfileUtilisateur(): ?Files
+    public function getProfileUtilisateur(): ?File
     {
         return $this->ProfileUtilisateur;
     }
 
-    public function setProfileUtilisateur(?Files $ProfileUtilisateur): static
+    public function setProfileUtilisateur(?File $ProfileUtilisateur): static
     {
         $this->ProfileUtilisateur = $ProfileUtilisateur;
 
@@ -262,6 +265,26 @@ class Utilisateurs
     public function setRoles(string $Roles): static
     {
         $this->Roles = $Roles;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of ImageNameUtilsateur
+     */ 
+    public function getImageNameUtilsateur()
+    {
+        return $this->ImageNameUtilsateur;
+    }
+
+    /**
+     * Set the value of ImageNameUtilsateur
+     *
+     * @return  self
+     */ 
+    public function setImageNameUtilsateur($ImageNameUtilsateur)
+    {
+        $this->ImageNameUtilsateur = $ImageNameUtilsateur;
 
         return $this;
     }

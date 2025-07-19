@@ -5,14 +5,21 @@ namespace App\Entity;
 use App\Repository\UtilisateursRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Entity\File as Files;
 
+
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 class Utilisateurs
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\Column(type:"uuid", unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'uuid')]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?Uuid $id = null;
 
     #[ORM\Column(length: 150)]
     private ?string $NomUtilisateur = null;
@@ -56,13 +63,13 @@ class Utilisateurs
     #[ORM\Column(length: 50)]
     private ?string $Types = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $ProfileUtilisateur = null;
+    #[Vich\UploadableField(mapping: 'utilisateurs_profile', fileNameProperty: 'ProfileUtilisateur')]
+    private ?Files $ProfileUtilisateur = null;
 
     #[ORM\Column(length: 255)]
     private ?string $Roles = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
@@ -235,12 +242,12 @@ class Utilisateurs
         return $this;
     }
 
-    public function getProfileUtilisateur(): ?string
+    public function getProfileUtilisateur(): ?Files
     {
         return $this->ProfileUtilisateur;
     }
 
-    public function setProfileUtilisateur(string $ProfileUtilisateur): static
+    public function setProfileUtilisateur(?Files $ProfileUtilisateur): static
     {
         $this->ProfileUtilisateur = $ProfileUtilisateur;
 

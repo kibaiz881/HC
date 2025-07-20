@@ -69,7 +69,7 @@ class Utilisateurs
     #[ORM\Column(length: 255)]
     private ?string $ImageNameUtilisateur = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'json')]
     private ?array $Roles = ["ROLE_USER"];
 
     public function getId(): ?Uuid

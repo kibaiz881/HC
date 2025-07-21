@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Uid\Uuid;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UtilisateursRepository::class)]
 #[UniqueEntity('EmailUtilisateur', 'l\'Adresse email dejà exist dans cette application')]
-class Utilisateurs implements UserInterface
+class Utilisateurs implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\Column(type: "uuid", unique: true)]
@@ -354,7 +355,7 @@ class Utilisateurs implements UserInterface
     /**
      * Get the value of password
      */
-    public function getPassword()
+    public function getPassword(): ?string
     {
         return $this->password;
     }

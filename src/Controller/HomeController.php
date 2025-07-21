@@ -14,7 +14,6 @@ final class HomeController extends AbstractController
         $slug = 'Home';
         return $this->render('home/index.html.twig', [
             'slug' => $slug,
-            'controller_name' => 'HomeController',
         ]);
     }
 }
